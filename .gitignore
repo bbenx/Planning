@@ -1,0 +1,6 @@
+.DS_Store
+.vercel
+*.log
+worker/node_modules/
+worker/.wrangler/
+worker/.dev.vars
