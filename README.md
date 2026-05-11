@@ -62,3 +62,4 @@ Ouvre `http://127.0.0.1:8765/`. Le push en local nécessite HTTPS (tunnel type `
 
 Bouton **Télécharger les rappels (.ics)** : import dans l’app Calendrier pour des alarmes gérées par le système.
 # Planning
+# Planning
