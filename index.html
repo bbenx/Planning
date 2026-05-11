@@ -585,7 +585,7 @@ function syncPushUi() {
     btn.textContent = '☁️ Activer les rappels push (app fermée, gratuit)';
     btn.classList.remove('off');
     if (!base) {
-      st.innerHTML = 'Au premier clic, colle l’URL de ton worker. Déploiement : compte Cloudflare gratuit + <code>cd worker && npm run deploy</code> (voir commentaires dans <code>worker/wrangler.toml</code>). Tu peux aussi définir <code>localStorage.planning_push_url</code> sans repasser par le prompt.';
+      st.innerHTML = 'Au premier clic, colle l’URL de ton worker. Pour le déployer : compte Cloudflare gratuit, puis dans un terminal <code>cd worker && npx wrangler login && npm run setup</code> (tout est automatisé sauf la connexion au navigateur). Tu peux aussi définir <code>localStorage.planning_push_url</code>.';
     } else {
       st.textContent = 'Worker configuré. Clique pour autoriser les notifications et enregistrer cet appareil.';
     }

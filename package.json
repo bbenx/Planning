@@ -1,0 +1,9 @@
+{
+  "name": "planning-pwa-v2",
+  "private": true,
+  "description": "PWA statique ; le worker push est dans worker/",
+  "scripts": {
+    "deploy:worker": "npm run deploy --prefix worker",
+    "setup:worker": "npm run setup --prefix worker"
+  }
+}

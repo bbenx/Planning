@@ -1,11 +1,6 @@
 # Gratuit : compte Cloudflare (Workers + KV + crons).
-# 1) wrangler login
-# 2) wrangler kv namespace create SUBS
-# 3) wrangler kv namespace create SUBS --preview
-# 4) Colle les id ci-dessous à la place de REPLACE_ME
-# 5) npx web-push generate-vapid-keys → public dans [vars], private : wrangler secret put VAPID_PRIVATE_KEY
-# 6) wrangler secret put VAPID_SUBJECT   (ex: mailto:toi@exemple.com)
-# 7) npm run deploy
+# Automatique :  npx wrangler login   puis   npm run setup
+# (setup.mjs crée le KV, les clés VAPID, les secrets et lance deploy.)
 
 name = "planning-pwa-v2-push"
 main = "src/index.js"

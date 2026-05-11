@@ -7,48 +7,28 @@ PWA de planning hebdo (streak, timers, notes, rappels). Front statique + **worke
 1. Pousse ce dépôt sur GitHub.
 2. [Vercel](https://vercel.com) → *Add New Project* → import du repo.
 3. Laisse les réglages par défaut (pas de commande de build : les fichiers à la racine suffisent).
-4. Récupère l’URL `https://ton-projet.vercel.app` et ouvre-la sur ton téléphone → Safari → *Sur l’écran d’accueil* pour installer la PWA.
+4. Ouvre l’URL Vercel sur ton téléphone → Safari → *Sur l’écran d’accueil* pour installer la PWA.
 
-## Déployer les rappels push (Cloudflare Workers, 0 €)
+## Rappels push (Cloudflare, 0 €) — presque tout automatique
 
-1. Compte [Cloudflare](https://dash.cloudflare.com) (gratuit).
-2. Dans le dossier `worker/` :
+Tu dois **une seule chose à la main** : te connecter à Cloudflare (ça ouvre le navigateur). Le reste est fait par le script.
 
-   ```bash
-   cd worker
-   npm install
-   npx wrangler login
-   npx wrangler kv namespace create SUBS
-   npx wrangler kv namespace create SUBS --preview
-   ```
+```bash
+cd worker
+npm install
+npx wrangler login
+npm run setup
+```
 
-   Copie les **id** dans `worker/wrangler.toml` à la place de `REPLACE_ME` (binding `SUBS`).
+À la racine du repo tu peux aussi faire : `npm run setup:worker` (après `npm install` dans `worker/` une fois).
 
-3. Génère des clés VAPID :
+`npm run setup` : crée les namespaces KV, génère les clés VAPID, met à jour `wrangler.toml`, envoie la clé privée en **secret** Cloudflare, lance **`wrangler deploy`**.
 
-   ```bash
-   npx web-push generate-vapid-keys
-   ```
+Ensuite, sur la PWA Vercel : **Activer les rappels push** → colle l’URL `https://…workers.dev` (sans `/` à la fin). **iOS ≥ 16.4** pour le push sur PWA installée.
 
-   - Mets la **clé publique** dans `wrangler.toml` → `VAPID_PUBLIC_KEY`.
-   - Enregistre la **clé privée** et le sujet :
+Optionnel : `VAPID_EMAIL=ton@mail.com npm run setup` pour un `mailto:` réaliste (sinon `mailto:planning-push@localhost`).
 
-     ```bash
-     npx wrangler secret put VAPID_PRIVATE_KEY
-     npx wrangler secret put VAPID_SUBJECT
-     ```
-
-     Pour `VAPID_SUBJECT`, utilise par ex. `mailto:tonemail@domaine.com`.
-
-4. Déploie :
-
-   ```bash
-   npm run deploy
-   ```
-
-5. Sur la PWA (installée ou dans le navigateur), bouton **Activer les rappels push** → colle l’URL du worker (`https://…workers.dev`, sans `/` à la fin). Autorise les notifications sur l’iPhone (**iOS ≥ 16.4** pour le push sur PWA installée).
-
-Les créneaux poussés sont définis dans `index.html` (`NOTIFS`) et doivent rester **alignés** avec `worker/src/index.js` (même tableau).
+Les créneaux poussés sont dans `index.html` (`NOTIFS`) — garde le même tableau dans `worker/src/index.js`.
 
 ## Développement local
 
@@ -56,10 +36,8 @@ Les créneaux poussés sont définis dans `index.html` (`NOTIFS`) et doivent res
 python3 -m http.server 8765
 ```
 
-Ouvre `http://127.0.0.1:8765/`. Le push en local nécessite HTTPS (tunnel type `ngrok`) ou le déploiement Vercel.
+Ouvre `http://127.0.0.1:8765/`. Le push en local demande HTTPS ou le déploiement Vercel.
 
 ## Alternative sans backend
 
-Bouton **Télécharger les rappels (.ics)** : import dans l’app Calendrier pour des alarmes gérées par le système.
-# Planning
-# Planning
+Bouton **Télécharger les rappels (.ics)** : import dans l’app Calendrier.
